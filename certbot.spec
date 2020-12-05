@@ -1,11 +1,11 @@
 Summary:	Tool to obtain certificates from Let's Encrypt and other ACME compliant CAs
 Name:		certbot
-Version:	0.36.0
+Version:	1.10.1
 Release:	1
 License:	MIT
 Group:		Development/Python
 Url:		http://certbot.eff.org/
-Source0:	https://github.com/certbot/certbot/archive/v%{version}.tar.gz
+Source0:	https://github.com/certbot/certbot/archive/v%{version}/%{name}-%{version}.tar.gz
 BuildRequires:	pkgconfig(python3)
 BuildRequires:	python-setuptools
 BuildRequires:	python-pkg-resources
