@@ -1,7 +1,7 @@
 Summary:	Tool to obtain certificates from Let's Encrypt and other ACME compliant CAs
 Name:		certbot
 Version:	2.1.1
-Release:	2
+Release:	3
 License:	MIT
 Group:		Development/Python
 Url:		http://certbot.eff.org/
@@ -49,6 +49,8 @@ Tests for the certbot Let's Encrypt client
  
 %prep
 %autosetup -p1
+# Indent nginx.conf entries with tabs to match our system defaults
+sed -i -e 's,\\n        ,\\n		,g;s,\\n    ,\\n	,g' certbot-nginx/certbot_nginx/_internal/configurator.py
 
 %build
 for i in %{subprojects}; do
