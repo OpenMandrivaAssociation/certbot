@@ -1,7 +1,7 @@
 Summary:	Tool to obtain certificates from Let's Encrypt and other ACME compliant CAs
 Name:		certbot
 Version:	2.1.1
-Release:	1
+Release:	2
 License:	MIT
 Group:		Development/Python
 Url:		http://certbot.eff.org/
@@ -67,6 +67,11 @@ done
 # We're neither BrokenBuntu nor that other broken OS
 rm -rf %{buildroot}%{python3_sitelib}/{snap,windows_installer}_integration_tests
 
+# Let's own the log directories we'd otherwise create on first run
+mkdir -p %{buildroot}%{_localstatedir}/log/letsencrypt
+touch %{buildroot}%{_localstatedir}/log/letsencrypt/letsencrypt.log
+touch %{buildroot}%{_localstatedir}/log/letsencrypt/letsencrypt.log.1
+
 %files
 %{_bindir}/certbot
 %{_bindir}/certbot-compatibility-test
@@ -81,3 +86,6 @@ rm -rf %{buildroot}%{python3_sitelib}/{snap,windows_installer}_integration_tests
 %{python3_sitelib}/certbot_apache-*-info
 %{python3_sitelib}/certbot_compatibility_test-*-info
 %{python3_sitelib}/certbot_nginx-*-info
+%dir %{_localstatedir}/log/letsencrypt
+%ghost %{_localstatedir}/log/letsencrypt/letsencrypt.log
+%ghost %{_localstatedir}/log/letsencrypt/letsencrypt.log.1
