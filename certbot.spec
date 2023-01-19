@@ -1,11 +1,14 @@
 Summary:	Tool to obtain certificates from Let's Encrypt and other ACME compliant CAs
 Name:		certbot
-Version:	2.1.1
-Release:	3
+Version:	2.2.0
+Release:	1
 License:	MIT
 Group:		Development/Python
 Url:		http://certbot.eff.org/
 Source0:	https://github.com/certbot/certbot/archive/v%{version}.tar.gz
+Source10:	https://src.fedoraproject.org/rpms/certbot/raw/rawhide/f/certbot-renew-systemd.service
+Source11:	https://src.fedoraproject.org/rpms/certbot/raw/rawhide/f/certbot-renew-systemd.timer
+Source12:	https://src.fedoraproject.org/rpms/certbot/raw/rawhide/f/certbot-sysconfig-certbot
 BuildRequires:	pkgconfig(python3)
 BuildRequires:	python%{pyver}dist(pip)
 BuildRequires:	python-pkg-resources
@@ -69,6 +72,11 @@ done
 # We're neither BrokenBuntu nor that other broken OS
 rm -rf %{buildroot}%{python3_sitelib}/{snap,windows_installer}_integration_tests
 
+# Systemd integration
+install -Dm 0644 --preserve-timestamps %{SOURCE10} %{buildroot}%{_unitdir}/certbot-renew.service
+install -Dm 0644 --preserve-timestamps %{SOURCE11} %{buildroot}%{_unitdir}/certbot-renew.timer
+install -Dm 0644 --preserve-timestamps %{SOURCE12} %{buildroot}%{_sysconfdir}/sysconfig/certbot
+
 # Let's own the log directories we'd otherwise create on first run
 mkdir -p %{buildroot}%{_localstatedir}/log/letsencrypt
 touch %{buildroot}%{_localstatedir}/log/letsencrypt/letsencrypt.log
@@ -88,6 +96,9 @@ touch %{buildroot}%{_localstatedir}/log/letsencrypt/letsencrypt.log.1
 %{python3_sitelib}/certbot_apache-*-info
 %{python3_sitelib}/certbot_compatibility_test-*-info
 %{python3_sitelib}/certbot_nginx-*-info
+%{_unitdir}/certbot-renew.service
+%{_unitdir}/certbot-renew.timer
+%config(noreplace) %{_sysconfdir}/sysconfig/certbot
 %dir %{_localstatedir}/log/letsencrypt
 %ghost %{_localstatedir}/log/letsencrypt/letsencrypt.log
 %ghost %{_localstatedir}/log/letsencrypt/letsencrypt.log.1
