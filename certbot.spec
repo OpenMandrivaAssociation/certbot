@@ -4,7 +4,7 @@ Version:	2.11.0
 Release:	1
 License:	MIT
 Group:		Development/Python
-Url:		http://certbot.eff.org/
+Url:		https://certbot.eff.org/
 Source0:	https://github.com/certbot/certbot/archive/v%{version}.tar.gz
 Source10:	https://src.fedoraproject.org/rpms/certbot/raw/rawhide/f/certbot-renew-systemd.service
 Source11:	https://src.fedoraproject.org/rpms/certbot/raw/rawhide/f/certbot-renew-systemd.timer
