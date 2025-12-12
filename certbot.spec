@@ -1,7 +1,7 @@
 Summary:	Tool to obtain certificates from Let's Encrypt and other ACME compliant CAs
 Name:		certbot
-Version:	3.3.0
-Release:	2
+Version:	5.2.2
+Release:	1
 License:	MIT
 Group:		Development/Python
 Url:		https://certbot.eff.org/
@@ -9,8 +9,10 @@ Source0:	https://github.com/certbot/certbot/archive/v%{version}.tar.gz
 Source10:	https://src.fedoraproject.org/rpms/certbot/raw/rawhide/f/certbot-renew-systemd.service
 Source11:	https://src.fedoraproject.org/rpms/certbot/raw/rawhide/f/certbot-renew-systemd.timer
 Source12:	https://src.fedoraproject.org/rpms/certbot/raw/rawhide/f/certbot-sysconfig-certbot
-BuildRequires:	pkgconfig(python3)
+BuildRequires:	python
+BuildRequires:	python%{pyver}dist(setuptools)
 BuildRequires:	python%{pyver}dist(pip)
+BuildRequires:	python%{pyver}dist(build)
 BuildRequires:	python-pkg-resources
 BuildArch:	noarch
 
@@ -53,12 +55,12 @@ Tests for the certbot Let's Encrypt client
 %prep
 %autosetup -p1
 # Indent nginx.conf entries with tabs to match our system defaults
-sed -i -e 's,\\n        ,\\n		,g;s,\\n    ,\\n	,g' certbot-nginx/certbot_nginx/_internal/configurator.py
+sed -i -e 's,\\n        ,\\n		,g;s,\\n    ,\\n	,g' certbot-nginx/src/certbot_nginx/_internal/configurator.py
 
 %build
 for i in %{subprojects}; do
 	cd $i
-	%py_build
+	python -m build -nx -w -o ../RPMBUILD_wheels
 	cd ..
 done
  
