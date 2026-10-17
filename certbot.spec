@@ -1,8 +1,8 @@
 Summary:	Tool to obtain certificates from Let's Encrypt and other ACME compliant CAs
 Name:		certbot
-Version:	5.3.1
+Version:	5.8.0
 Release:	1
-License:	MIT
+License:	Apache-2.0 AND MIT
 Group:		Development/Python
 Url:		https://certbot.eff.org/
 Source0:	https://github.com/certbot/certbot/archive/v%{version}.tar.gz
@@ -13,7 +13,6 @@ BuildRequires:	python
 BuildRequires:	python%{pyver}dist(setuptools)
 BuildRequires:	python%{pyver}dist(pip)
 BuildRequires:	python%{pyver}dist(build)
-BuildRequires:	python-pkg-resources
 BuildArch:	noarch
 
 %description
@@ -55,7 +54,7 @@ Tests for the certbot Let's Encrypt client
 %prep
 %autosetup -p1
 # Indent nginx.conf entries with tabs to match our system defaults
-sed -i -e 's,\\n        ,\\n		,g;s,\\n    ,\\n	,g' certbot-nginx/src/certbot_nginx/_internal/configurator.py
+sed -i -e 's,\\n        ,\\n		,g;s,\\n    ,\\n	,g' certbot/src/certbot/_internal/plugins/nginx/configurator.py
 
 %build
 for i in %{subprojects}; do
@@ -85,6 +84,7 @@ touch %{buildroot}%{_localstatedir}/log/letsencrypt/letsencrypt.log
 touch %{buildroot}%{_localstatedir}/log/letsencrypt/letsencrypt.log.1
 
 %files
+%license LICENSE.txt
 %{_bindir}/certbot
 %{_bindir}/certbot-compatibility-test
 %{_bindir}/run_acme_server
